@@ -4,152 +4,199 @@
 <meta charset="UTF-8">
 <title>PhishGuard Pitch Deck</title>
 <style>
-  body { font-family: 'Segoe UI', Arial, sans-serif; background:#fff; margin:0; color:#111; }
-  .slide { width: 100%; height: 100vh; page-break-after: always; box-sizing: border-box;
-           padding: 48px 64px; display: flex; flex-direction: column; justify-content: center; }
+  body { font-family: 'Helvetica Neue', 'DejaVu Sans', Arial, sans-serif; background:#fff; margin:0; color:#1c2430; }
+  @page { size: A4; margin: 0; }
+  .slide { width: 21cm; height: 29.7cm; page-break-after: always; box-sizing: border-box;
+           padding: 40px 56px; display: flex; flex-direction: column; position: relative; }
   .slide:last-child { page-break-after: auto; }
-  h1 { font-size: 42px; margin: 0 0 8px; }
-  h2 { font-size: 30px; margin: 0 0 20px; }
-  h3 { font-size: 20px; margin: 24px 0 8px; color:#222; }
-  p, li { font-size: 19px; line-height: 1.55; }
-  ul { margin: 0; padding-left: 26px; }
-  .muted { color:#555; }
-  .tag { display:inline-block; background:#0d1117; color:#fff; padding:6px 14px; border-radius:20px;
-         font-size:15px; margin: 4px 6px 4px 0; }
-  .big { font-size: 64px; font-weight:800; }
-  .red { color:#d1242f; } .green { color:#238636; } .orange { color:#d29922; }
-  table { border-collapse: collapse; font-size: 18px; }
-  td, th { border: 1px solid #ccc; padding: 8px 16px; text-align: left; }
-  th { background:#f0f0f0; }
-  .center { text-align:center; }
+  .main { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+  .foot { position: absolute; bottom: 18px; left: 56px; right: 56px;
+          display: flex; justify-content: space-between; font-size: 11px; color: #8a93a3;
+          border-top: 1px solid #e3e8ef; padding-top: 10px; }
+  h1 { font-size: 46px; margin: 0 0 10px; color: #0f1c2e; }
+  h2 { font-size: 28px; margin: 0 0 22px; color: #0f1c2e; }
+  h2 .num { color: #2e6fdb; font-weight: 700; margin-right: 10px; }
+  h3 { font-size: 18px; margin: 26px 0 8px; color: #2e6fdb; text-transform: uppercase; letter-spacing: 1px; }
+  p, li { font-size: 18px; line-height: 1.6; }
+  ul { margin: 0; padding-left: 22px; }
+  li { margin-bottom: 10px; }
+  .muted { color: #6b7280; }
+  .sub { font-size: 22px; color: #4a5568; margin: 0 0 18px; }
+  .tag { display: inline-block; background: #0f1c2e; color: #fff; padding: 6px 14px; border-radius: 20px;
+         font-size: 14px; margin: 4px 8px 4px 0; }
+  .big { font-size: 56px; font-weight: 800; }
+  .red { color: #c0392b; } .green { color: #1e8449; } .blue { color: #2e6fdb; }
+  table { border-collapse: collapse; font-size: 17px; width: 100%; }
+  td, th { border: 1px solid #d5dbe3; padding: 10px 16px; text-align: left; }
+  th { background: #f1f4f8; color: #0f1c2e; }
+  td b { color: #0f1c2e; }
+  .center { text-align: center; }
+  pre { font-family: 'DejaVu Sans Mono', Consolas, monospace; font-size: 15px; background: #f6f8fa;
+        padding: 18px; border-radius: 6px; border: 1px solid #e3e8ef; overflow: hidden; }
+  .arrow { font-size: 34px; color: #8a93a3; vertical-align: middle; }
 </style>
 </head>
 <body>
 
 <div class="slide">
-  <h1>🛡️ PhishGuard</h1>
-  <p style="font-size:24px;">AI Email Phishing Detector with <b>Explainable Verdicts</b></p>
-  <p class="muted">FutureTech HackFest 2026 · Applied AI × Cybersecurity · Chiara De Venuto</p>
-  <p><span class="tag">offline-first</span><span class="tag">privacy-preserving</span><span class="tag">98.75% CV accuracy</span></p>
+  <div class="main center">
+    <h1>PhishGuard</h1>
+    <p class="sub">AI Email Phishing Detector with Explainable Verdicts</p>
+    <p class="muted">FutureTech HackFest 2026 &nbsp;·&nbsp; Applied AI × Cybersecurity &nbsp;·&nbsp; Chiara De Venuto</p>
+    <p style="margin-top:24px;"><span class="tag">offline-first</span><span class="tag">privacy-preserving</span><span class="tag">98.75% CV accuracy</span></p>
+  </div>
+  <div class="foot"><span>PhishGuard · FutureTech HackFest 2026</span><span>01 / 12</span></div>
 </div>
 
 <div class="slide">
-  <h2>1 · The Problem</h2>
-  <ul>
-    <li>Phishing is the #1 way attacks get started, with millions of new phishing sites appearing every quarter.</li>
-    <li>The question that matters is not "is this link blacklisted?" but <b>"is this email trustworthy?"</b>, and it needs an answer before you click.</li>
-    <li>Most detectors are <b>black boxes</b>: they return a verdict with no reasons, so you never learn how to protect yourself.</li>
-    <li>Most detectors also <b>depend on the cloud</b>, which means your email content is sent to a server somewhere else.</li>
-  </ul>
+  <div class="main">
+    <h2><span class="num">01</span>The Problem</h2>
+    <ul>
+      <li>Phishing is the #1 way attacks get started, with millions of new phishing sites appearing every quarter.</li>
+      <li>The question that matters is not "is this link blacklisted?" but <b>"is this email trustworthy?"</b>, and it needs an answer before you click.</li>
+      <li>Most detectors are <b>black boxes</b>: they return a verdict with no reasons, so you never learn how to protect yourself.</li>
+      <li>Most detectors also <b>depend on the cloud</b>, which means your email content is sent to a server somewhere else.</li>
+    </ul>
+  </div>
+  <div class="foot"><span>PhishGuard · FutureTech HackFest 2026</span><span>02 / 12</span></div>
 </div>
 
 <div class="slide">
-  <h2>2 · Our Solution</h2>
-  <p style="font-size:20px;">You paste an email into PhishGuard and get:</p>
-  <ul>
-    <li>🎯 <b>A risk score from 0 to 100</b> and a clear verdict: SAFE, SUSPICIOUS or PHISHING</li>
-    <li>🧾 <b>Evidence you can read</b>: the exact signals and words that raised the score, so you understand the <i>why</i></li>
-    <li>🔒 <b>100% offline</b>: no API keys, no cloud, no data ever leaving your machine</li>
-    <li>⚡ A simple web interface, plus a JSON API for developers</li>
-  </ul>
+  <div class="main">
+    <h2><span class="num">02</span>The Solution</h2>
+    <p style="font-size:20px; color:#4a5568;">You paste an email into PhishGuard and get:</p>
+    <ul>
+      <li><b>A risk score from 0 to 100</b> and a clear verdict: SAFE, SUSPICIOUS or PHISHING</li>
+      <li><b>Evidence you can read</b>: the exact signals and words that raised the score, so you understand the <i>why</i></li>
+      <li><b>100% offline</b>: no API keys, no cloud, no data ever leaving your machine</li>
+      <li>A simple web interface, plus a JSON API for developers</li>
+    </ul>
+  </div>
+  <div class="foot"><span>PhishGuard · FutureTech HackFest 2026</span><span>03 / 12</span></div>
 </div>
 
 <div class="slide">
-  <h2>3 · How It Works</h2>
-  <p style="font-family:monospace; font-size:18px; background:#f5f5f5; padding:18px; border-radius:8px;">
-  email text ──► TF-IDF (1-2 grams, 1677 features) ─┐<br>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─► hstack ─► Logistic Regression ─► score 0-100<br>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─► 15 heuristic features (scaled) ─┘&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;verdict + evidence ◄┘</p>
-  <ul>
-    <li><b>ML layer</b>: picks up subtle patterns in the text that are hard to describe by hand.</li>
-    <li><b>Heuristic layer</b>: encodes expert knowledge such as typosquatting domains, raw-IP URLs, Reply-To mismatches, urgency keywords and attachment hints.</li>
-    <li><b>Interpretable by design</b>: logistic regression coefficients can be read directly, and the interface shows them to you.</li>
-  </ul>
+  <div class="main">
+    <h2><span class="num">03</span>How It Works</h2>
+    <pre>email text ──► TF-IDF (1-2 grams, 1677 features) ─┐
+                ├────────────────────────────────────┼─► hstack ─► Logistic Regression ─► score 0-100
+                └─► 15 heuristic features (scaled) ─┘                  │
+                                                 verdict + evidence ◄──┘</pre>
+    <ul>
+      <li><b>ML layer</b>: picks up subtle patterns in the text that are hard to describe by hand.</li>
+      <li><b>Heuristic layer</b>: encodes expert knowledge such as typosquatting domains, raw-IP URLs, Reply-To mismatches, urgency keywords and attachment hints.</li>
+      <li><b>Interpretable by design</b>: logistic regression coefficients can be read directly, and the interface shows them to you.</li>
+    </ul>
+  </div>
+  <div class="foot"><span>PhishGuard · FutureTech HackFest 2026</span><span>04 / 12</span></div>
 </div>
 
 <div class="slide">
-  <h2>4 · Data & Methodology</h2>
-  <ul>
-    <li><b>720 emails</b>, balanced between 360 phishing and 360 legitimate, generated deterministically (seed 42) from documented phishing patterns. The generator lives in the repository, so the dataset is <b>fully reproducible</b>.</li>
-    <li><b>Hard examples on purpose</b>: legitimate emails that mention words like "verify your email" or "password changed", plus low-intensity phishing that stays calm.</li>
-    <li>Features: TF-IDF (1-2 grams) plus <b>15 interpretable heuristics</b>.</li>
-    <li>Model: <b>Logistic Regression</b> with balanced classes. A strong baseline that is fast and explainable.</li>
-    <li>Evaluation: stratified holdout, <b>5-fold cross-validation</b> and an ablation study.</li>
-  </ul>
+  <div class="main">
+    <h2><span class="num">04</span>Data &amp; Methodology</h2>
+    <ul>
+      <li><b>720 emails</b>, balanced between 360 phishing and 360 legitimate, generated deterministically (seed 42) from documented phishing patterns. The generator lives in the repository, so the dataset is <b>fully reproducible</b>.</li>
+      <li><b>Hard examples on purpose</b>: legitimate emails that mention words like "verify your email" or "password changed", plus low-intensity phishing that stays calm.</li>
+      <li>Features: TF-IDF (1-2 grams) plus <b>15 interpretable heuristics</b>.</li>
+      <li>Model: <b>Logistic Regression</b> with balanced classes. A strong baseline that is fast and explainable.</li>
+      <li>Evaluation: stratified holdout, <b>5-fold cross-validation</b> and an ablation study.</li>
+    </ul>
+  </div>
+  <div class="foot"><span>PhishGuard · FutureTech HackFest 2026</span><span>05 / 12</span></div>
 </div>
 
 <div class="slide">
-  <h2>5 · Results</h2>
-  <table>
-    <tr><th>Metric</th><th>Holdout (20%)</th><th>5-fold CV</th></tr>
-    <tr><td>Accuracy</td><td><b>98.61%</b></td><td><b>98.75%</b></td></tr>
-    <tr><td>Precision</td><td><b>100%</b></td><td><b>100%</b></td></tr>
-    <tr><td>Recall</td><td><b>97.22%</b></td><td><b>97.50%</b></td></tr>
-    <tr><td>F1</td><td><b>98.59%</b></td><td><b>98.73%</b></td></tr>
-  </table>
-  <p class="muted">Holdout confusion matrix: [[72, 0], [2, 70]]. Zero false positives, 2 false negatives.</p>
+  <div class="main">
+    <h2><span class="num">05</span>Results</h2>
+    <table>
+      <tr><th>Metric</th><th>Holdout (20%)</th><th>5-fold CV</th></tr>
+      <tr><td>Accuracy</td><td><b>98.61%</b></td><td><b>98.75%</b></td></tr>
+      <tr><td>Precision</td><td><b>100%</b></td><td><b>100%</b></td></tr>
+      <tr><td>Recall</td><td><b>97.22%</b></td><td><b>97.50%</b></td></tr>
+      <tr><td>F1</td><td><b>98.59%</b></td><td><b>98.73%</b></td></tr>
+    </table>
+    <p class="muted" style="margin-top:16px;">Holdout confusion matrix: [[72, 0], [2, 70]]. Zero false positives, 2 false negatives.</p>
+  </div>
+  <div class="foot"><span>PhishGuard · FutureTech HackFest 2026</span><span>06 / 12</span></div>
 </div>
 
 <div class="slide">
-  <h2>6 · Demo Flow</h2>
-  <p style="font-size:20px;">1️⃣ Paste any email, suspicious or normal<br>
-  2️⃣ Get the <b>score bar</b> and verdict badge<br>
-  3️⃣ Read the <b>evidence</b>: active features and top indicators<br>
-  4️⃣ Act on the advice, before clicking anything</p>
-  <p class="center"><span class="big red">100</span> <span class="big">PHISHING</span>
-  &nbsp;&nbsp;→&nbsp;&nbsp; <span class="big green">5</span> <span class="big">SAFE</span></p>
-  <p class="muted center">Real output from the running app (see demo video).</p>
+  <div class="main">
+    <h2><span class="num">06</span>Demo Flow</h2>
+    <p style="font-size:20px;">1. Paste any email, suspicious or normal<br>
+    2. Get the <b>score bar</b> and verdict badge<br>
+    3. Read the <b>evidence</b>: active features and top indicators<br>
+    4. Act on the advice, before clicking anything</p>
+    <p class="center" style="margin-top:26px;"><span class="big red">100</span> <span class="big">PHISHING</span>
+    <span class="arrow">&nbsp;&nbsp;→&nbsp;&nbsp;</span> <span class="big green">5</span> <span class="big">SAFE</span></p>
+    <p class="muted center">Real output from the running app (see demo video).</p>
+  </div>
+  <div class="foot"><span>PhishGuard · FutureTech HackFest 2026</span><span>07 / 12</span></div>
 </div>
 
 <div class="slide">
-  <h2>7 · Innovation</h2>
-  <ul>
-    <li>🧠 <b>Explainability is the feature</b>: using PhishGuard teaches you what to look for, and security awareness is the first line of defense.</li>
-    <li>🔒 <b>Offline-first and private</b>: email content never leaves the device, which is rare among modern detectors.</li>
-    <li>🔬 <b>Reproducible data</b>: the whole corpus is generated by auditable, committed code.</li>
-    <li>🛡️ <b>Dual-layer defense</b>: machine learning plus expert heuristics, and both layers are visible to the user.</li>
-  </ul>
+  <div class="main">
+    <h2><span class="num">07</span>Innovation</h2>
+    <ul>
+      <li><b>Explainability is the feature</b>: using PhishGuard teaches you what to look for, and security awareness is the first line of defense.</li>
+      <li><b>Offline-first and private</b>: email content never leaves the device, which is rare among modern detectors.</li>
+      <li><b>Reproducible data</b>: the whole corpus is generated by auditable, committed code.</li>
+      <li><b>Dual-layer defense</b>: machine learning plus expert heuristics, and both layers are visible to the user.</li>
+    </ul>
+  </div>
+  <div class="foot"><span>PhishGuard · FutureTech HackFest 2026</span><span>08 / 12</span></div>
 </div>
 
 <div class="slide">
-  <h2>8 · Limits & Roadmap</h2>
-  <ul>
-    <li>The dataset is synthetic, so validation on real-world mail (Enron corpora and live phishing feeds) is the immediate next step.</li>
-    <li>Text indicators are single tokens today; natural-language explanations are the follow-up.</li>
-    <li>Logistic regression is a strong baseline, and a fine-tuned transformer is a possible upgrade if you accept the trade-off in size and interpretability.</li>
-  </ul>
-  <h3>Roadmap</h3>
-  <ul>
-    <li>Browser extension and email-client plugin</li>
-    <li>Threat-intel blacklist as a third layer</li>
-    <li>Better explanations for the SUSPICIOUS band</li>
-  </ul>
+  <div class="main">
+    <h2><span class="num">08</span>Limits &amp; Roadmap</h2>
+    <ul>
+      <li>The dataset is synthetic, so validation on real-world mail (Enron corpora and live phishing feeds) is the immediate next step.</li>
+      <li>Text indicators are single tokens today; natural-language explanations are the follow-up.</li>
+      <li>Logistic regression is a strong baseline, and a fine-tuned transformer is a possible upgrade if you accept the trade-off in size and interpretability.</li>
+    </ul>
+    <h3>Roadmap</h3>
+    <ul>
+      <li>Browser extension and email-client plugin</li>
+      <li>Threat-intel blacklist as a third layer</li>
+      <li>Better explanations for the SUSPICIOUS band</li>
+    </ul>
+  </div>
+  <div class="foot"><span>PhishGuard · FutureTech HackFest 2026</span><span>09 / 12</span></div>
 </div>
 
 <div class="slide">
-  <h2>9 · Stack</h2>
-  <p><span class="tag">Python 3.12</span><span class="tag">Flask 3.1</span><span class="tag">scikit-learn 1.9</span><span class="tag">TF-IDF</span><span class="tag">Logistic Regression</span><span class="tag">joblib</span><span class="tag">unittest</span></p>
-  <h3>Open-source only · No external services · MIT</h3>
-  <p class="muted">GitHub: public repository with full code, dataset generator, tests and docs.</p>
+  <div class="main">
+    <h2><span class="num">09</span>Technology Stack</h2>
+    <p><span class="tag">Python 3.12</span><span class="tag">Flask 3.1</span><span class="tag">scikit-learn 1.9</span><span class="tag">TF-IDF</span><span class="tag">Logistic Regression</span><span class="tag">joblib</span><span class="tag">unittest</span></p>
+    <h3>Open-source only · No external services · MIT</h3>
+    <p class="muted">GitHub: public repository with full code, dataset generator, tests and docs.</p>
+  </div>
+  <div class="foot"><span>PhishGuard · FutureTech HackFest 2026</span><span>10 / 12</span></div>
 </div>
 
 <div class="slide">
-  <h2>10 · AI Use Disclosure</h2>
-  <p style="font-size:19px;">Developed <b>with the assistance of generative AI tools</b> (scaffolding, code generation support, debugging, documentation drafting). All code was reviewed, executed and tested locally; every metric comes from running the code.</p>
-  <p style="font-size:17px;"><b>Framework:</b></p>
-  <ul style="font-size:16px;">
-    <li><b>Regulation (EU) 2024/1689 (EU AI Act), Art. 50</b> (transparency, applicable since 2 Aug 2026). Voluntarily applied: research/educational open-source project.</li>
-    <li><b>Italian Law No. 132/2025, Art. 13</b> (clear, simple and exhaustive information on AI use).</li>
-    <li><b>EU Code of Practice on Transparency of AI-Generated Content</b> (final, 10 June 2026).</li>
-  </ul>
-  <p style="font-size:16px;" class="muted">Training data: fully synthetic, self-generated, no third-party works. No personal data collected or transmitted (GDPR-aligned).</p>
+  <div class="main">
+    <h2><span class="num">10</span>AI Use Disclosure</h2>
+    <p style="font-size:18px;">Developed <b>with the assistance of generative AI tools</b> (scaffolding, code generation support, debugging, documentation drafting). All code was reviewed, executed and tested locally; every metric comes from running the code.</p>
+    <p style="font-size:16px;"><b>Framework:</b></p>
+    <ul style="font-size:16px;">
+      <li><b>Regulation (EU) 2024/1689 (EU AI Act), Art. 50</b> (transparency, applicable since 2 Aug 2026). Voluntarily applied: research/educational open-source project.</li>
+      <li><b>Italian Law No. 132/2025, Art. 13</b> (clear, simple and exhaustive information on AI use).</li>
+      <li><b>EU Code of Practice on Transparency of AI-Generated Content</b> (final, 10 June 2026).</li>
+    </ul>
+    <p style="font-size:15px;" class="muted">Training data: fully synthetic, self-generated, no third-party works. No personal data collected or transmitted (GDPR-aligned).</p>
+  </div>
+  <div class="foot"><span>PhishGuard · FutureTech HackFest 2026</span><span>11 / 12</span></div>
 </div>
 
 <div class="slide">
-  <h2>Thank you</h2>
-  <p style="font-size:22px;">🛡️ <b>PhishGuard</b>. Know why. Click safely.</p>
-  <p class="muted">FutureTech HackFest 2026 · Chiara De Venuto</p>
+  <div class="main center">
+    <h1>Thank You</h1>
+    <p style="font-size:22px;">PhishGuard. Know why. Click safely.</p>
+    <p class="muted">FutureTech HackFest 2026 · Chiara De Venuto</p>
+  </div>
+  <div class="foot"><span>PhishGuard · FutureTech HackFest 2026</span><span>12 / 12</span></div>
 </div>
 
 </body>

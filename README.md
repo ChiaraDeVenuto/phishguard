@@ -1,4 +1,4 @@
-# 🛡️ PhishGuard: AI Email Phishing Detector
+# PhishGuard: AI Email Phishing Detector
 
 Applied AI × Cybersecurity. Detects phishing emails with a hybrid pipeline:
 **TF-IDF text model + handcrafted heuristic features → Logistic Regression**,

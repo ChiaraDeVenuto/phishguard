@@ -1,8 +1,43 @@
-<h1>PhishGuard Project Report</h1>
-<p><strong>FutureTech HackFest 2026</strong> · Theme: <em>Innovating Tomorrow with Emerging Technologies</em>
-Focus areas: <strong>Applied AI</strong> · <strong>Cybersecurity</strong>
-Author: Chiara De Venuto (individual participation)</p>
-<hr />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PhishGuard Project Report</title>
+<style>
+  @page { size: A4; margin: 20mm 22mm; }
+  body { font-family: 'Helvetica Neue', 'DejaVu Sans', Arial, sans-serif; color: #1c2430;
+         margin: 0; font-size: 15px; line-height: 1.65; }
+  .doc-head { border-bottom: 3px solid #2e6fdb; padding-bottom: 14px; margin-bottom: 10px; }
+  h1 { font-size: 26px; margin: 0 0 6px; color: #0f1c2e; }
+  .meta { color: #6b7280; font-size: 13px; margin: 0; }
+  h2 { font-size: 19px; color: #0f1c2e; border-bottom: 1px solid #e3e8ef;
+       padding-bottom: 6px; margin: 34px 0 14px; }
+  h3 { font-size: 16px; color: #2e6fdb; margin: 22px 0 8px; }
+  p { margin: 10px 0; }
+  ul, ol { margin: 8px 0; padding-left: 22px; }
+  li { margin-bottom: 6px; }
+  code { font-family: 'DejaVu Sans Mono', Consolas, monospace; font-size: 13px;
+         background: #f1f4f8; padding: 1px 5px; border-radius: 3px; }
+  pre { font-family: 'DejaVu Sans Mono', Consolas, monospace; font-size: 12.5px;
+        background: #f6f8fa; border: 1px solid #e3e8ef; border-radius: 6px;
+        padding: 16px; overflow: hidden; line-height: 1.45; }
+  pre code { background: none; padding: 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; margin: 12px 0; }
+  th { background: #f1f4f8; color: #0f1c2e; }
+  td, th { border: 1px solid #d5dbe3; padding: 8px 14px; text-align: left; }
+  hr { border: none; border-top: 1px solid #e3e8ef; margin: 30px 0; }
+  .doc-foot { border-top: 1px solid #e3e8ef; margin-top: 40px; padding-top: 12px;
+              font-size: 12px; color: #8a93a3; display: flex; justify-content: space-between; }
+</style>
+</head>
+<body>
+
+<div class="doc-head">
+  <h1>PhishGuard Project Report</h1>
+  <p class="meta"><strong>FutureTech HackFest 2026</strong> · Theme: <em>Innovating Tomorrow with Emerging Technologies</em><br>
+  Focus areas: <strong>Applied AI</strong> · <strong>Cybersecurity</strong> · Author: Chiara De Venuto (individual participation)</p>
+</div>
+
 <h2>1. Executive Summary</h2>
 <p>PhishGuard is an AI email phishing detector that works fully offline. It combines a
 <strong>machine learning classifier</strong> (TF-IDF text representation with logistic
@@ -15,6 +50,7 @@ campaigns and small organizations that want to avoid cloud dependencies.</p>
 <p><strong>Key results:</strong> 98.61% holdout accuracy, 98.75% 5-fold cross-validation
 accuracy, 0 false positives and 2 false negatives on a balanced 720-email
 curated dataset.</p>
+
 <h2>2. Problem</h2>
 <p>Phishing is still one of the most effective ways for attackers to get in.
 APWG consistently reports record phishing volumes, with millions of unique
@@ -23,32 +59,28 @@ at infrastructure. For an individual user or a small organization the
 question is rarely "is this link malicious?" (blacklists already answer
 that). The real question is <strong>"is this email trustworthy?"</strong>, and the answer
 is needed <em>before</em> the click.</p>
-<p>Two practical gaps motivated this project:
-1. <strong>Explainability</strong>. Most detectors return a verdict without any reason,
-   so users never learn and cannot defend themselves elsewhere.
-2. <strong>Dependency</strong>. Commercial solutions are cloud-based. An email sent to a
-   device with no connectivity, or one that is privacy-sensitive, cannot be
-   analyzed. PhishGuard runs 100% locally.</p>
+<p>Two practical gaps motivated this project:</p>
+<ol>
+  <li><strong>Explainability</strong>. Most detectors return a verdict without any reason, so users never learn and cannot defend themselves elsewhere.</li>
+  <li><strong>Dependency</strong>. Commercial solutions are cloud-based. An email sent to a device with no connectivity, or one that is privacy-sensitive, cannot be analyzed. PhishGuard runs 100% locally.</li>
+</ol>
+
 <h2>3. Proposed Solution</h2>
-<p><code>email text ──► TF-IDF (1-2 grams, 1677 features) ─┐
+<pre><code>email text ──► TF-IDF (1-2 grams, 1677 features) ─┐
               ├────────────────────────────────────┼─► hstack ─► Logistic Regression ─► score 0-100
               └─► 15 heuristic features (scaled) ─┘                  │
-                                               verdict + evidence ◄──┘</code></p>
+                                               verdict + evidence ◄──┘</code></pre>
 <ul>
-<li><strong>Web UI</strong> (Flask): paste an email, get a score bar, a verdict badge, advice,
-  the active heuristic features and the top contributing text indicators.</li>
-<li><strong>JSON API</strong> (<code>POST /api/analyze</code>): programmatic use, ready for integration.</li>
+  <li><strong>Web UI</strong> (Flask): paste an email, get a score bar, a verdict badge, advice, the active heuristic features and the top contributing text indicators.</li>
+  <li><strong>JSON API</strong> (<code>POST /api/analyze</code>): programmatic use, ready for integration.</li>
 </ul>
 <h3>Why this approach</h3>
 <ul>
-<li><strong>No external API keys, no cloud, no data exfiltration</strong>. The model is a
-  small local artifact (~300 KB). This is a privacy-first design by choice.</li>
-<li><strong>Hybrid signals</strong>. TF-IDF captures subtle textual patterns, while heuristics
-  encode expert knowledge (typosquatting TLDs, raw-IP URLs, Reply-To
-  mismatches, urgency and financial trigger words) that ML on small data may miss.</li>
-<li><strong>Interpretable by construction</strong>. Logistic regression coefficients are
-  directly readable, and the UI surfaces them.</li>
+  <li><strong>No external API keys, no cloud, no data exfiltration</strong>. The model is a small local artifact (~300 KB). This is a privacy-first design by choice.</li>
+  <li><strong>Hybrid signals</strong>. TF-IDF captures subtle textual patterns, while heuristics encode expert knowledge (typosquatting TLDs, raw-IP URLs, Reply-To mismatches, urgency and financial trigger words) that ML on small data may miss.</li>
+  <li><strong>Interpretable by construction</strong>. Logistic regression coefficients are directly readable, and the UI surfaces them.</li>
 </ul>
+
 <h2>4. Methodology</h2>
 <h3>4.1 Dataset</h3>
 <p>Balanced, labeled synthetic corpus of <strong>720 emails (360 phishing / 360 legit)</strong>,
@@ -57,94 +89,69 @@ typosquatted domains, raw-IP URLs, urgent and financial trigger phrases, generic
 greetings, Reply-To mismatches, malicious attachments and ALL-CAPS manipulation.
 It also includes <strong>hard examples</strong> that make the task non-trivial:</p>
 <ul>
-<li>legitimate emails that contain phishing-like words ("verify your email",
-  "password changed", "security settings updated") with legitimate domains;</li>
-<li>low-intensity phishing with a calm tone and no exclamation marks.</li>
+  <li>legitimate emails that contain phishing-like words ("verify your email", "password changed", "security settings updated") with legitimate domains;</li>
+  <li>low-intensity phishing with a calm tone and no exclamation marks.</li>
 </ul>
 <p>No real user data was used. The generator is part of the repository
 (<code>phishguard/build_dataset.py</code>), so the dataset is fully reproducible.</p>
+
 <h3>4.2 Features</h3>
-<p><strong>Text:</strong> TF-IDF, n-grams 1-2, 4000 max features (1677 after min_df=2),
-sublinear TF.</p>
+<p><strong>Text:</strong> TF-IDF, n-grams 1-2, 4000 max features (1677 after min_df=2), sublinear TF.</p>
 <p><strong>Heuristics (15):</strong> num_urls, has_ip_url, n_click_here, n_suspicious_tld,
 urgent_keywords, financial_keywords, generic_greeting, n_exclamations,
 n_all_caps_words, caps_ratio, body_length, n_attachments,
 has_attachment_word, reply_to_mismatch, has_phone.</p>
+
 <h3>4.3 Model</h3>
 <p>Logistic Regression (C=1.0, class_weight=balanced, 3000 iterations) on the
 stacked sparse matrix. Logistic regression was chosen deliberately: it is a
 strong baseline for text classification, fast to train and evaluate on modest
 hardware, and <strong>fully interpretable</strong>.</p>
+
 <h3>4.4 Evaluation</h3>
 <ul>
-<li>Holdout: stratified 80/20, seed 42. <strong>98.61% accuracy, 100% precision,
-  97.22% recall, F1 98.59%</strong>. Confusion matrix [[72, 0], [2, 70]], meaning 0 false
-  positives and 2 false negatives.</li>
-<li><strong>5-fold CV</strong> (mean): 98.75% accuracy, F1 98.73%.</li>
-<li><strong>Ablation</strong>: text-only and heuristics-only both reach about 99% CV accuracy
-  on this corpus; the combined pipeline is the production choice, and the
-  heuristics supply the evidence layer that the UI shows.</li>
+  <li>Holdout: stratified 80/20, seed 42. <strong>98.61% accuracy, 100% precision, 97.22% recall, F1 98.59%</strong>. Confusion matrix [[72, 0], [2, 70]], meaning 0 false positives and 2 false negatives.</li>
+  <li><strong>5-fold CV</strong> (mean): 98.75% accuracy, F1 98.73%.</li>
+  <li><strong>Ablation</strong>: text-only and heuristics-only both reach about 99% CV accuracy on this corpus; the combined pipeline is the production choice, and the heuristics supply the evidence layer that the UI shows.</li>
 </ul>
+
 <h2>5. Innovation &amp; Uniqueness</h2>
 <ol>
-<li><strong>Explainability is a feature, not an add-on</strong>. Every verdict comes with the
-   list of active heuristic signals and the top text contributors, so the
-   user learns <em>what to look for</em>. That directly supports security awareness,
-   a recognized first line of defense.</li>
-<li><strong>Offline-first, privacy-preserving detection</strong>. No email content ever
-   leaves the device. That is unusual among modern detectors.</li>
-<li><strong>Reproducible synthetic corpus</strong>. The entire dataset is generated by
-   committed code, giving a transparent and auditable training pipeline.</li>
-<li><strong>Dual-layer defense</strong>. ML plus expert heuristics, with both layers exposed.</li>
+  <li><strong>Explainability is a feature, not an add-on</strong>. Every verdict comes with the list of active heuristic signals and the top text contributors, so the user learns <em>what to look for</em>. That directly supports security awareness, a recognized first line of defense.</li>
+  <li><strong>Offline-first, privacy-preserving detection</strong>. No email content ever leaves the device. That is unusual among modern detectors.</li>
+  <li><strong>Reproducible synthetic corpus</strong>. The entire dataset is generated by committed code, giving a transparent and auditable training pipeline.</li>
+  <li><strong>Dual-layer defense</strong>. ML plus expert heuristics, with both layers exposed.</li>
 </ol>
+
 <h2>6. Limitations &amp; Future Work</h2>
 <ul>
-<li>The corpus is synthetic, so generalization to real-world mail (Enron corpora,
-  live phishing feeds) still has to be validated. Public labeled datasets and
-  manual triage are the immediate next step.</li>
-<li>Single-token text indicators are rough explanations; a follow-up will
-  generate natural-language rationales (offline LLM or template-based).</li>
-<li>Logistic regression is a strong baseline, not a frontier model. A fine-tuned
-  transformer could improve recall on adversarial examples, at the cost of
-  size and interpretability.</li>
-<li>Roadmap: browser extension, MCP/server integration, a threat-intel feed
-  (blacklist) as a third layer, and better explainability for the SUSPICIOUS band.</li>
+  <li>The corpus is synthetic, so generalization to real-world mail (Enron corpora, live phishing feeds) still has to be validated. Public labeled datasets and manual triage are the immediate next step.</li>
+  <li>Single-token text indicators are rough explanations; a follow-up will generate natural-language rationales (offline LLM or template-based).</li>
+  <li>Logistic regression is a strong baseline, not a frontier model. A fine-tuned transformer could improve recall on adversarial examples, at the cost of size and interpretability.</li>
+  <li>Roadmap: browser extension, MCP/server integration, a threat-intel feed (blacklist) as a third layer, and better explainability for the SUSPICIOUS band.</li>
 </ul>
+
 <h2>7. Tech Stack</h2>
 <table>
-<thead>
-<tr>
-<th>Layer</th>
-<th>Technology</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ML</td>
-<td>scikit-learn 1.9 (TF-IDF, LogisticRegression), joblib, scipy</td>
-</tr>
-<tr>
-<td>Web</td>
-<td>Python 3.12, Flask 3.1</td>
-</tr>
-<tr>
-<td>Tests</td>
-<td>stdlib unittest (6 end-to-end tests)</td>
-</tr>
-<tr>
-<td>Assets</td>
-<td>pip requirements only, no external services</td>
-</tr>
-</tbody>
+  <thead>
+    <tr><th>Layer</th><th>Technology</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>ML</td><td>scikit-learn 1.9 (TF-IDF, LogisticRegression), joblib, scipy</td></tr>
+    <tr><td>Web</td><td>Python 3.12, Flask 3.1</td></tr>
+    <tr><td>Tests</td><td>stdlib unittest (6 end-to-end tests)</td></tr>
+    <tr><td>Assets</td><td>pip requirements only, no external services</td></tr>
+  </tbody>
 </table>
+
 <h2>8. How to Run</h2>
-<p><code>bash
-python3 -m venv .venv
+<pre><code>python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
 .venv/bin/python -m phishguard.build_dataset   # optional: rebuild dataset
 .venv/bin/python -m phishguard.model           # optional: retrain
 .venv/bin/python -m unittest tests.test_app    # tests
-.venv/bin/python app.py                        # http://127.0.0.1:5001</code></p>
+.venv/bin/python app.py                        # http://127.0.0.1:5001</code></pre>
+
 <h2>9. AI Tools Disclosure (transparency compliance)</h2>
 <h3>9.1 Statement of use</h3>
 <p>This project was developed with the assistance of generative AI tools.
@@ -170,17 +177,23 @@ exhaustive language. This disclosure adopts that standard.</p>
 (European Commission, AI Office; final version published 10 June 2026).
 Adherence is voluntary; this project aligns with the principles of the Code.</p>
 <h3>9.3 Data and training transparency</h3>
-<p>- The training dataset is entirely synthetic and self-generated (see
-  Section 4.1 and <code>phishguard/build_dataset.py</code>). No third-party copyrighted
-  works, personal data or proprietary data were used for training.</p>
-<p>- The application does not collect, store or transmit personal data:
-  analysis is performed fully offline on the user's device. This is
-  consistent with the principles of data minimisation and confidentiality of
-  Regulation (EU) 2016/679 (GDPR).</p>
+<ul>
+  <li>The training dataset is entirely synthetic and self-generated (see Section 4.1 and <code>phishguard/build_dataset.py</code>). No third-party copyrighted works, personal data or proprietary data were used for training.</li>
+  <li>The application does not collect, store or transmit personal data: analysis is performed fully offline on the user's device. This is consistent with the principles of data minimisation and confidentiality of Regulation (EU) 2016/679 (GDPR).</li>
+</ul>
 <h3>9.4 Purpose</h3>
 <p>The purpose of this disclosure is full transparency towards evaluators,
 users and any third party reviewing this submission.</p>
+
 <h2>10. Declaration</h2>
 <p>This project is original work, developed for the FutureTech HackFest 2026
 submission. It uses only open-source libraries. The dataset is generated by
 code committed to the repository.</p>
+
+<div class="doc-foot">
+  <span>PhishGuard · FutureTech HackFest 2026</span>
+  <span>Chiara De Venuto · 5 August 2026</span>
+</div>
+
+</body>
+</html>
