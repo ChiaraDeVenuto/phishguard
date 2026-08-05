@@ -1,0 +1,165 @@
+<h1>PhishGuard — Project Report</h1>
+<p><strong>FutureTech HackFest 2026</strong> · Theme: <em>Innovating Tomorrow with Emerging Technologies</em>
+Focus areas: <strong>Applied AI</strong> · <strong>Cybersecurity</strong>
+Author: Chiara De Venuto (individual participation)</p>
+<hr />
+<h2>1. Executive Summary</h2>
+<p>PhishGuard is an offline-first AI email phishing detector. It combines a
+<strong>machine learning classifier</strong> (TF-IDF text representation + logistic
+regression) with <strong>15 interpretable heuristic features</strong> to produce a
+0-100 phishing risk score, a verdict (SAFE / SUSPICIOUS / PHISHING) and —
+crucially — <strong>evidence</strong>: the exact features and text signals that drove the
+prediction. Unlike black-box commercial filters, PhishGuard explains <em>why</em> an
+email is dangerous, which is what makes it usable for education, awareness
+campaigns and small organizations without cloud dependencies.</p>
+<p><strong>Key results:</strong> 98.61% holdout accuracy, 98.89% 5-fold cross-validation
+accuracy, 0 false positives, 2 false negatives on a balanced 720-email
+curated dataset.</p>
+<h2>2. Problem</h2>
+<p>Phishing remains one of the most effective initial-access vectors in
+cybersecurity. APWG consistently reports record phishing volumes: millions
+of unique phishing sites per quarter, with social engineering increasingly
+targeting individuals rather than infrastructure. For an individual user or
+a small organization, the question is rarely "is this link malicious?"
+(blacklists answer that) but <strong>"is this email trustworthy?"</strong> — which is
+exactly where detection must operate <em>before</em> the click.</p>
+<p>Two practical gaps motivated this project:
+1. <strong>Explainability</strong> — most detectors return a verdict without reasons;
+   users do not learn and cannot defend themselves elsewhere.
+2. <strong>Dependency</strong> — commercial solutions are cloud-based; an email sent to a
+   device with no connectivity, or in a privacy-sensitive context, cannot be
+   analyzed. PhishGuard runs 100% locally.</p>
+<h2>3. Proposed Solution</h2>
+<p><code>email text ──► TF-IDF (1-2 grams, 1671 features) ─┐
+              ├────────────────────────────────────┼─► hstack ─► Logistic Regression ─► score 0-100
+              └─► 15 heuristic features (scaled) ─┘                  │
+                                               verdict + evidence ◄──┘</code></p>
+<ul>
+<li><strong>Web UI</strong> (Flask): paste an email, get score bar, verdict badge, advice,
+  active heuristic features and top contributing text indicators.</li>
+<li><strong>JSON API</strong> (<code>POST /api/analyze</code>): programmatic use, integration-ready.</li>
+</ul>
+<h3>Why this approach</h3>
+<ul>
+<li><strong>No external API keys, no cloud, no data exfiltration</strong> — the model is a
+  ~300 KB local artifact. A privacy-first design.</li>
+<li><strong>Hybrid signals</strong> — TF-IDF captures subtle textual patterns; heuristics
+  encode expert knowledge (typosquatting TLDs, raw-IP URLs, Reply-To
+  mismatches, urgency/financial trigger words) that ML on small data may miss.</li>
+<li><strong>Interpretability by construction</strong> — logistic regression coefficients are
+  directly readable; the UI surfaces them.</li>
+</ul>
+<h2>4. Methodology</h2>
+<h3>4.1 Dataset</h3>
+<p>Balanced, labeled synthetic corpus of <strong>720 emails (360 phishing / 360 legit)</strong>,
+generated deterministically (seed 42) from documented phishing patterns:
+typosquatted domains, raw-IP URLs, urgent/financial trigger phrases, generic
+greetings, Reply-To mismatches, malicious attachments, ALL-CAPS manipulation —
+<em>and</em> <strong>hard examples</strong> that make the task non-trivial:</p>
+<ul>
+<li>legitimate emails containing phishing-like words ("verify your email",
+  "password changed", "security settings updated") with legitimate domains;</li>
+<li>low-intensity phishing (calm tone, no exclamation marks).</li>
+</ul>
+<p>No real user data was used. The generator is part of the repository
+(<code>phishguard/build_dataset.py</code>), making the dataset fully reproducible.</p>
+<h3>4.2 Features</h3>
+<p><strong>Text:</strong> TF-IDF, n-grams 1-2, 4000 max features (1671 after min_df=2),
+sublinear TF.</p>
+<p><strong>Heuristics (15):</strong> num_urls, has_ip_url, n_click_here, n_suspicious_tld,
+urgent_keywords, financial_keywords, generic_greeting, n_exclamations,
+n_all_caps_words, caps_ratio, body_length, n_attachments,
+has_attachment_word, reply_to_mismatch, has_phone.</p>
+<h3>4.3 Model</h3>
+<p>Logistic Regression (C=1.0, class_weight=balanced, 3000 iterations) on the
+stacked sparse matrix. Logistic regression was chosen deliberately: strong
+baseline for text classification, fast to train/evaluate on modest hardware,
+and <strong>fully interpretable</strong>.</p>
+<h3>4.4 Evaluation</h3>
+<ul>
+<li>Holdout: stratified 80/20, seed 42 → <strong>98.61% acc, 100% precision,
+  97.22% recall, F1 98.59%</strong>. Confusion matrix: [[72, 0], [2, 70]] — 0 false
+  positives, 2 false negatives.</li>
+<li><strong>5-fold CV</strong> (mean): 98.89% acc, F1 98.87%.</li>
+<li><strong>Ablation</strong>: text-only and heuristics-only both reach ~99% CV accuracy on
+  this corpus; the combined pipeline is the production choice and the
+  heuristics supply the evidence layer for the UI.</li>
+</ul>
+<h2>5. Innovation &amp; Uniqueness</h2>
+<ol>
+<li><strong>Explainability as a feature, not an add-on</strong>: every verdict is delivered
+   with the list of active heuristic signals and the top text contributors.
+   The user learns <em>what to look for</em> — directly supporting security
+   awareness, a recognized first line of defense.</li>
+<li><strong>Offline-first, privacy-preserving detection</strong>: no email content ever
+   leaves the device. Unusual among modern detectors.</li>
+<li><strong>Reproducible synthetic corpus</strong>: the entire dataset is generated by
+   committed code — a transparent, auditable training pipeline.</li>
+<li><strong>Dual-layer defense</strong>: ML + expert heuristics, with both layers exposed.</li>
+</ol>
+<h2>6. Limitations &amp; Future Work</h2>
+<ul>
+<li>The corpus is synthetic; generalization to real-world mail (Enron corpora,
+  live phishing feeds) must be validated. Public labeled datasets and
+  manual triage are the immediate next step.</li>
+<li>Single-token text indicators are crude explanations; a follow-up will
+  generate natural-language rationales (offline LLM or template-based).</li>
+<li>Logistic regression is a strong baseline, not a frontier model; a fine-tuned
+  transformer could improve recall on adversarial examples, at the cost of
+  size and interpretability.</li>
+<li>Roadmap: browser extension, MCP/server integration, threat-intel feed
+  (blacklist) as a third layer, explainability for the SUSPICIOUS band.</li>
+</ul>
+<h2>7. Tech Stack</h2>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Technology</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ML</td>
+<td>scikit-learn 1.9 (TF-IDF, LogisticRegression), joblib, scipy</td>
+</tr>
+<tr>
+<td>Web</td>
+<td>Python 3.12, Flask 3.1</td>
+</tr>
+<tr>
+<td>Tests</td>
+<td>stdlib unittest (6 end-to-end tests)</td>
+</tr>
+<tr>
+<td>Assets</td>
+<td>pip requirements only — no external services</td>
+</tr>
+</tbody>
+</table>
+<h2>8. How to Run</h2>
+<p><code>bash
+python3 -m venv .venv
+.venv/bin/pip install -r requirements.txt
+.venv/bin/python -m phishguard.build_dataset   # optional: rebuild dataset
+.venv/bin/python -m phishguard.model           # optional: retrain
+.venv/bin/python -m unittest tests.test_app    # tests
+.venv/bin/python app.py                        # http://127.0.0.1:5001</code></p>
+<h2>9. AI Tools Disclosure (transparency compliance)</h2>
+<p>This project was developed with the assistance of AI tools: a local AI coding
+assistant (APEX) was used for scaffolding, code generation support, debugging
+and documentation drafting. The code was reviewed, executed and tested
+locally; all metrics reported in this document were produced by running the
+code, not by the assistant. No proprietary or personal data was shared with
+external services.</p>
+<p>This disclosure is made in compliance with:
+- <strong>Regulation (EU) 2024/1689 (EU AI Act), Article 50</strong> (transparency
+  obligations, applicable since 2 August 2026);
+- <strong>Italian Law No. 132/2025</strong> on artificial intelligence (transparency
+  principles, Article 13).</p>
+<p>The purpose of this disclosure is full transparency towards evaluators, users
+and any third party reviewing this submission.</p>
+<h2>10. Declaration</h2>
+<p>This project is original work, developed for the FutureTech HackFest 2026
+submission. It uses only open-source libraries. The dataset is generated by
+code committed to the repository.</p>

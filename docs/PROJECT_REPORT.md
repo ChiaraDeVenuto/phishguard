@@ -150,12 +150,23 @@ python3 -m venv .venv
 .venv/bin/python app.py                        # http://127.0.0.1:5001
 ```
 
-## 9. AI Tools Disclosure
+## 9. AI Tools Disclosure (transparency compliance)
 
-Development was assisted by a local AI coding assistant (APEX) for scaffolding,
-debugging and documentation drafting. All code was reviewed and executed
-locally; all metrics reported here were produced by running the code. No
-proprietary data was shared with external services.
+This project was developed with the assistance of AI tools: a local AI coding
+assistant (APEX) was used for scaffolding, code generation support, debugging
+and documentation drafting. The code was reviewed, executed and tested
+locally; all metrics reported in this document were produced by running the
+code, not by the assistant. No proprietary or personal data was shared with
+external services.
+
+This disclosure is made in compliance with:
+- **Regulation (EU) 2024/1689 (EU AI Act), Article 50** (transparency
+  obligations, applicable since 2 August 2026);
+- **Italian Law No. 132/2025** on artificial intelligence (transparency
+  principles, Article 13).
+
+The purpose of this disclosure is full transparency towards evaluators, users
+and any third party reviewing this submission.
 
 ## 10. Declaration
 
