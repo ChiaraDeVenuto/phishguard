@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PhishGuard — Pitch Deck</title>
+<style>
+  body { font-family: 'Segoe UI', Arial, sans-serif; background:#fff; margin:0; color:#111; }
+  .slide { width: 100%; height: 100vh; page-break-after: always; box-sizing: border-box;
+           padding: 48px 64px; display: flex; flex-direction: column; justify-content: center; }
+  .slide:last-child { page-break-after: auto; }
+  h1 { font-size: 42px; margin: 0 0 8px; }
+  h2 { font-size: 30px; margin: 0 0 20px; }
+  h3 { font-size: 20px; margin: 24px 0 8px; color:#222; }
+  p, li { font-size: 19px; line-height: 1.55; }
+  ul { margin: 0; padding-left: 26px; }
+  .muted { color:#555; }
+  .tag { display:inline-block; background:#0d1117; color:#fff; padding:6px 14px; border-radius:20px;
+         font-size:15px; margin: 4px 6px 4px 0; }
+  .big { font-size: 64px; font-weight:800; }
+  .red { color:#d1242f; } .green { color:#238636; } .orange { color:#d29922; }
+  table { border-collapse: collapse; font-size: 18px; }
+  td, th { border: 1px solid #ccc; padding: 8px 16px; text-align: left; }
+  th { background:#f0f0f0; }
+  .center { text-align:center; }
+</style>
+</head>
+<body>
+
+<div class="slide">
+  <h1>🛡️ PhishGuard</h1>
+  <p style="font-size:24px;">AI Email Phishing Detector with <b>Explainable Verdicts</b></p>
+  <p class="muted">FutureTech HackFest 2026 · Applied AI × Cybersecurity · Chiara De Venuto</p>
+  <p><span class="tag">offline-first</span><span class="tag">privacy-preserving</span><span class="tag">98.9% accuracy</span></p>
+</div>
+
+<div class="slide">
+  <h2>1 · The Problem</h2>
+  <ul>
+    <li>Phishing is the #1 initial-access vector in cyberattacks — millions of new phishing sites per quarter.</li>
+    <li>The real question is not "is this link blacklisted?" but <b>"is this email trustworthy?"</b> — before the click.</li>
+    <li>Most detectors are <b>black boxes</b>: verdict without reasons → users never learn to defend themselves.</li>
+    <li>Most detectors are <b>cloud-dependent</b>: email content leaves the device.</li>
+  </ul>
+</div>
+
+<div class="slide">
+  <h2>2 · Our Solution</h2>
+  <p style="font-size:20px;"><b>PhishGuard</b> — paste an email, get:</p>
+  <ul>
+    <li>🎯 <b>Risk score 0-100</b> + verdict: SAFE / SUSPICIOUS / PHISHING</li>
+    <li>🧾 <b>Evidence</b>: active heuristic signals + top text indicators (the <i>why</i>)</li>
+    <li>🔒 <b>100% offline</b>: no API keys, no cloud, no data exfiltration</li>
+    <li>⚡ Web UI + JSON API</li>
+  </ul>
+</div>
+
+<div class="slide">
+  <h2>3 · How It Works</h2>
+  <p style="font-family:monospace; font-size:18px; background:#f5f5f5; padding:18px; border-radius:8px;">
+  email text ──► TF-IDF (1-2 grams, 1671 features) ─┐<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─► hstack ─► Logistic Regression ─► score 0-100<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─► 15 heuristic features (scaled) ─┘&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;verdict + evidence ◄┘</p>
+  <ul>
+    <li><b>ML layer</b> — captures subtle textual patterns.</li>
+    <li><b>Heuristic layer</b> — expert knowledge: typosquatting TLDs, raw-IP URLs, Reply-To mismatch, urgency keywords, attachments…</li>
+    <li><b>Interpretability by construction</b> — logistic coefficients are readable.</li>
+  </ul>
+</div>
+
+<div class="slide">
+  <h2>4 · Data & Methodology</h2>
+  <ul>
+    <li><b>720 emails</b>, balanced (360 phishing / 360 legit), generated deterministically (seed 42) from documented phishing patterns — <b>fully reproducible, code-committed</b>.</li>
+    <li><b>Hard examples</b> included: legit emails with phishing-like words ("verify your email", "password changed"), low-intensity phishing.</li>
+    <li>Features: TF-IDF (1-2 grams) + <b>15 interpretable heuristics</b>.</li>
+    <li>Model: <b>Logistic Regression</b> (class-balanced) — strong baseline, fast, explainable.</li>
+    <li>Evaluation: stratified holdout + <b>5-fold CV</b> + ablation study.</li>
+  </ul>
+</div>
+
+<div class="slide">
+  <h2>5 · Results</h2>
+  <table>
+    <tr><th>Metric</th><th>Holdout (20%)</th><th>5-fold CV</th></tr>
+    <tr><td>Accuracy</td><td><b>98.61%</b></td><td><b>98.89%</b></td></tr>
+    <tr><td>Precision</td><td><b>100%</b></td><td><b>100%</b></td></tr>
+    <tr><td>Recall</td><td><b>97.22%</b></td><td><b>97.78%</b></td></tr>
+    <tr><td>F1</td><td><b>98.59%</b></td><td><b>98.87%</b></td></tr>
+  </table>
+  <p class="muted">Holdout confusion matrix: [[72, 0], [2, 70]] — 0 false positives, 2 false negatives.</p>
+</div>
+
+<div class="slide">
+  <h2>6 · Demo Flow</h2>
+  <p style="font-size:20px;">1️⃣ Paste any email (suspicious or normal)<br>
+  2️⃣ Get the <b>score bar</b> + verdict badge<br>
+  3️⃣ Read the <b>evidence</b>: active features & top indicators<br>
+  4️⃣ Act on the advice — before clicking anything</p>
+  <p class="center"><span class="big red">100</span> <span class="big">PHISHING</span>
+  &nbsp;&nbsp;→&nbsp;&nbsp; <span class="big green">5</span> <span class="big">SAFE</span></p>
+  <p class="muted center">Real output from the running app (see demo video).</p>
+</div>
+
+<div class="slide">
+  <h2>7 · Innovation</h2>
+  <ul>
+    <li>🧠 <b>Explainability as a feature</b>: users learn <i>what to look for</i> — security awareness, the first line of defense.</li>
+    <li>🔒 <b>Offline-first, privacy-preserving</b>: email content never leaves the device.</li>
+    <li>🔬 <b>Reproducible corpus</b>: auditable, code-generated dataset.</li>
+    <li>🛡️ <b>Dual-layer defense</b>: ML + expert heuristics, both exposed.</li>
+  </ul>
+</div>
+
+<div class="slide">
+  <h2>8 · Limits & Roadmap</h2>
+  <ul>
+    <li>Synthetic corpus → validate on real-world data (Enron + live phishing feeds).</li>
+    <li>Single-token indicators → natural-language explanations.</li>
+    <li>Logistic baseline → optional fine-tuned transformer (size vs. interpretability trade-off).</li>
+  </ul>
+  <h3>Roadmap</h3>
+  <ul>
+    <li>Browser extension & email-client plugin</li>
+    <li>Threat-intel blacklist as a third layer</li>
+    <li>Explainability for the SUSPICIOUS band</li>
+  </ul>
+</div>
+
+<div class="slide">
+  <h2>9 · Stack</h2>
+  <p><span class="tag">Python 3.12</span><span class="tag">Flask 3.1</span><span class="tag">scikit-learn 1.9</span><span class="tag">TF-IDF</span><span class="tag">Logistic Regression</span><span class="tag">joblib</span><span class="tag">unittest</span></p>
+  <h3>Open-source only · No external services · MIT</h3>
+  <p class="muted">GitHub: public repository with full code, dataset generator, tests and docs.</p>
+</div>
+
+<div class="slide">
+  <h2>Thank you</h2>
+  <p style="font-size:22px;">🛡️ <b>PhishGuard</b> — Know why. Click safely.</p>
+  <p class="muted">FutureTech HackFest 2026 · Chiara De Venuto</p>
+</div>
+
+</body>
+</html>
