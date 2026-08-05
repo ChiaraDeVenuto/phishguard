@@ -17,7 +17,7 @@ prediction. Unlike black-box commercial filters, PhishGuard explains *why* an
 email is dangerous, which is what makes it usable for education, awareness
 campaigns and small organizations without cloud dependencies.
 
-**Key results:** 98.61% holdout accuracy, 98.89% 5-fold cross-validation
+**Key results:** 98.61% holdout accuracy, 98.75% 5-fold cross-validation
 accuracy, 0 false positives, 2 false negatives on a balanced 720-email
 curated dataset.
 
@@ -41,7 +41,7 @@ Two practical gaps motivated this project:
 ## 3. Proposed Solution
 
 ```
-email text ──► TF-IDF (1-2 grams, 1671 features) ─┐
+email text ──► TF-IDF (1-2 grams, 1677 features) ─┐
               ├────────────────────────────────────┼─► hstack ─► Logistic Regression ─► score 0-100
               └─► 15 heuristic features (scaled) ─┘                  │
                                                verdict + evidence ◄──┘
@@ -80,7 +80,7 @@ No real user data was used. The generator is part of the repository
 
 ### 4.2 Features
 
-**Text:** TF-IDF, n-grams 1-2, 4000 max features (1671 after min_df=2),
+**Text:** TF-IDF, n-grams 1-2, 4000 max features (1677 after min_df=2),
 sublinear TF.
 
 **Heuristics (15):** num_urls, has_ip_url, n_click_here, n_suspicious_tld,
@@ -100,7 +100,7 @@ and **fully interpretable**.
 - Holdout: stratified 80/20, seed 42 → **98.61% acc, 100% precision,
   97.22% recall, F1 98.59%**. Confusion matrix: [[72, 0], [2, 70]] — 0 false
   positives, 2 false negatives.
-- **5-fold CV** (mean): 98.89% acc, F1 98.87%.
+- **5-fold CV** (mean): 98.75% acc, F1 98.73%.
 - **Ablation**: text-only and heuristics-only both reach ~99% CV accuracy on
   this corpus; the combined pipeline is the production choice and the
   heuristics supply the evidence layer for the UI.

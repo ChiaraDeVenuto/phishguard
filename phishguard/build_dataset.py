@@ -210,7 +210,7 @@ LEGIT_COMPANIES = ["TechFlow Ltd", "Acme Corp", "StudioNova", "GreenPath srl", "
 
 def _gen_legit_email(rng: random.Random) -> str:
     subject = rng.choice(LEGIT_SUBJECTS)
-    name = rng.choice(["Chiara", "Ms. De Venuto", "Chiara De Venuto"])
+    name = rng.choice(["Alex", "Jamie", "Taylor", "Morgan", "Jordan"])
     body_template = rng.choice(LEGIT_BODIES)
     body = body_template.format(
         order=rng.randint(10000, 99999),
@@ -253,12 +253,12 @@ HARD_PHISH_SUBJECTS = [
 ]
 
 HARD_LEGIT_BODIES = [
-    "Hi Chiara, to finish your registration please verify your email address by clicking this link: {domain}/verify/email. The link expires in 48 hours.",
-    "Dear Ms. De Venuto, your account password was recently changed. If this was not you, contact us at {domain}/help.",
-    "Hello Chiara, we updated your account security settings as requested. You can review them at {domain}/settings/security.",
-    "Hi Chiara, please confirm your new email address to keep receiving notifications: {domain}/confirm-email.",
-    "Dear Chiara, our system detected a login from a new device. If this was you, no action is needed. Otherwise, reset your password at {domain}/reset.",
-    "Hello Chiara, your two-factor authentication was enabled successfully. Your backup codes are available at {domain}/backup-codes.",
+    "Hi Alex, to finish your registration please verify your email address by clicking this link: {domain}/verify/email. The link expires in 48 hours.",
+    "Dear Ms. Morgan, your account password was recently changed. If this was not you, contact us at {domain}/help.",
+    "Hello Taylor, we updated your account security settings as requested. You can review them at {domain}/settings/security.",
+    "Hi Jamie, please confirm your new email address to keep receiving notifications: {domain}/confirm-email.",
+    "Dear Alex, our system detected a login from a new device. If this was you, no action is needed. Otherwise, reset your password at {domain}/reset.",
+    "Hello Morgan, your two-factor authentication was enabled successfully. Your backup codes are available at {domain}/backup-codes.",
 ]
 
 HARD_LEGIT_SUBJECTS = [

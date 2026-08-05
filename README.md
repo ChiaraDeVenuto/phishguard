@@ -13,10 +13,10 @@ Emerging Technologies"* (focus areas: Applied AI, Cybersecurity).
 
 | Metric | Holdout (20%) | 5-fold CV (combined) |
 |---|---|---|
-| Accuracy | 98.61% | 98.89% |
+| Accuracy | 98.61% | 98.75% |
 | Precision | 100.00% | 100.00% |
-| Recall | 97.22% | 97.78% |
-| F1 | 98.59% | 98.87% |
+| Recall | 97.22% | 97.50% |
+| F1 | 98.59% | 98.73% |
 
 Holdout confusion matrix: **0 false positives, 2 false negatives** (144 test emails).
 
@@ -25,7 +25,7 @@ Holdout confusion matrix: **0 false positives, 2 false negatives** (144 test ema
 ```
 input email (text)
       │
-      ├──► TF-IDF (1-2 grams, 1671 features) ─────────┐
+      ├──► TF-IDF (1-2 grams, 1677 features) ─────────┐
       │                                               ├──► hstack ─► Logistic
       └──► 15 heuristic features (scaled) ────────────┘            Regression
                                                                       │

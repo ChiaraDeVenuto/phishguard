@@ -29,7 +29,7 @@ Customer Support Team"""
 
 LEGIT_SAMPLE = """Subject: Your order #48217 has shipped
 
-Dear Chiara,
+Dear Alex,
 
 I hope this message finds you well.
 

@@ -12,7 +12,7 @@ crucially — <strong>evidence</strong>: the exact features and text signals tha
 prediction. Unlike black-box commercial filters, PhishGuard explains <em>why</em> an
 email is dangerous, which is what makes it usable for education, awareness
 campaigns and small organizations without cloud dependencies.</p>
-<p><strong>Key results:</strong> 98.61% holdout accuracy, 98.89% 5-fold cross-validation
+<p><strong>Key results:</strong> 98.61% holdout accuracy, 98.75% 5-fold cross-validation
 accuracy, 0 false positives, 2 false negatives on a balanced 720-email
 curated dataset.</p>
 <h2>2. Problem</h2>
@@ -30,7 +30,7 @@ exactly where detection must operate <em>before</em> the click.</p>
    device with no connectivity, or in a privacy-sensitive context, cannot be
    analyzed. PhishGuard runs 100% locally.</p>
 <h2>3. Proposed Solution</h2>
-<p><code>email text ──► TF-IDF (1-2 grams, 1671 features) ─┐
+<p><code>email text ──► TF-IDF (1-2 grams, 1677 features) ─┐
               ├────────────────────────────────────┼─► hstack ─► Logistic Regression ─► score 0-100
               └─► 15 heuristic features (scaled) ─┘                  │
                                                verdict + evidence ◄──┘</code></p>
@@ -64,7 +64,7 @@ greetings, Reply-To mismatches, malicious attachments, ALL-CAPS manipulation —
 <p>No real user data was used. The generator is part of the repository
 (<code>phishguard/build_dataset.py</code>), making the dataset fully reproducible.</p>
 <h3>4.2 Features</h3>
-<p><strong>Text:</strong> TF-IDF, n-grams 1-2, 4000 max features (1671 after min_df=2),
+<p><strong>Text:</strong> TF-IDF, n-grams 1-2, 4000 max features (1677 after min_df=2),
 sublinear TF.</p>
 <p><strong>Heuristics (15):</strong> num_urls, has_ip_url, n_click_here, n_suspicious_tld,
 urgent_keywords, financial_keywords, generic_greeting, n_exclamations,
@@ -80,7 +80,7 @@ and <strong>fully interpretable</strong>.</p>
 <li>Holdout: stratified 80/20, seed 42 → <strong>98.61% acc, 100% precision,
   97.22% recall, F1 98.59%</strong>. Confusion matrix: [[72, 0], [2, 70]] — 0 false
   positives, 2 false negatives.</li>
-<li><strong>5-fold CV</strong> (mean): 98.89% acc, F1 98.87%.</li>
+<li><strong>5-fold CV</strong> (mean): 98.75% acc, F1 98.73%.</li>
 <li><strong>Ablation</strong>: text-only and heuristics-only both reach ~99% CV accuracy on
   this corpus; the combined pipeline is the production choice and the
   heuristics supply the evidence layer for the UI.</li>
