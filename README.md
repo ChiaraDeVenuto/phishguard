@@ -9,6 +9,17 @@ no cloud dependencies. Every prediction comes with **interpretable evidence**
 Built for the **FutureTech HackFest 2026** (theme *"Innovating Tomorrow with
 Emerging Technologies"* (focus areas: Applied AI, Cybersecurity).
 
+## Competition status
+
+- **FutureTech HackFest 2026 — H&P Projects**
+- Registrata: 2026-08-04 (conferma via email Unstop)
+- **Submission: 2026-08-05 via Google Form — COMPLETATO** ✅
+- Demo video: https://youtu.be/AVLgcPbavSE
+- Deck: https://drive.google.com/file/d/1Xx6SbcGSSXND575LQDZFL4haoZ03hExe/view?usp=sharing
+- Report: https://drive.google.com/file/d/1krRLUVstosFceAweuEsgYqhzi1cco9x1/view?usp=sharing
+- Pagina Unstop: https://unstop.com/hackathons/futuretech-hackfest-2026-h-p-projects-1716746
+- ✅ Participation certificate per tutti i partecipanti (atteso)
+
 ## Results
 
 | Metric | Holdout (20%) | 5-fold CV (combined) |
