@@ -93,4 +93,10 @@ since 2 August 2026, and Italian Law No. 132/2025 on artificial intelligence.
 
 ## License
 
-MIT
+[MIT](LICENSE)
+
+## Community
+
+- [Contributing](CONTRIBUTING.md)
+- [Security policy](SECURITY.md)
+- [Code of Conduct](CODE_OF_CONDUCT.md)
