@@ -152,21 +152,50 @@ python3 -m venv .venv
 
 ## 9. AI Tools Disclosure (transparency compliance)
 
+### 9.1 Statement of use
+
 This project was developed with the assistance of generative AI tools.
 AI-assisted coding was used for scaffolding, code generation support,
-debugging and documentation drafting. The code was reviewed, executed and
-tested locally, and all metrics reported in this document were produced by
-running the code, not by the tools. No proprietary or personal data was
-shared with external services.
+debugging and documentation drafting. The tools were used exclusively as a
+development aid: the final code was reviewed, executed and tested locally by
+the author, and every metric reported in this document was produced by
+running the code itself, not by the tools.
 
-This disclosure is made in compliance with:
-- **Regulation (EU) 2024/1689 (EU AI Act), Article 50** (transparency
-  obligations, applicable since 2 August 2026);
-- **Italian Law No. 132/2025** on artificial intelligence (transparency
-  principles, Article 13).
+### 9.2 Legal framework
 
-The purpose of this disclosure is full transparency towards evaluators, users
-and any third party reviewing this submission.
+This disclosure is made in accordance with the following instruments:
+
+(a) **Regulation (EU) 2024/1689 (Artificial Intelligence Act), Article 50**
+(transparency obligations for providers and deployers of AI systems),
+applicable since 2 August 2026. PhishGuard is distributed as a
+research/educational open-source project and does not operate as a provider
+or deployer of an AI system within the meaning of the Regulation. This
+disclosure is nonetheless made voluntarily, in line with the transparency
+principles of Article 50, towards evaluators, users and any third party.
+
+(b) **Italian Law No. 132 of 23 September 2025 (in force since 10 October
+2025), Article 13**, which requires that information on the AI systems used
+be communicated to the recipient of the service in clear, simple and
+exhaustive language. This disclosure adopts that standard.
+
+(c) **Code of Practice on Transparency of AI-Generated Content**
+(European Commission, AI Office; final version published 10 June 2026).
+Adherence is voluntary; this project aligns with the principles of the Code.
+
+### 9.3 Data and training transparency
+
+- The training dataset is entirely synthetic and self-generated (see
+  Section 4.1 and `phishguard/build_dataset.py`). No third-party copyrighted
+  works, personal data or proprietary data were used for training.
+- The application does not collect, store or transmit personal data:
+  analysis is performed fully offline on the user's device. This is
+  consistent with the principles of data minimisation and confidentiality of
+  Regulation (EU) 2016/679 (GDPR).
+
+### 9.4 Purpose
+
+The purpose of this disclosure is full transparency towards evaluators,
+users and any third party reviewing this submission.
 
 ## 10. Declaration
 

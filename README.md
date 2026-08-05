@@ -87,9 +87,22 @@ Response: `score` (0-100), `label` (SAFE / SUSPICIOUS / PHISHING),
 This project was developed with the assistance of generative AI tools
 (AI-assisted coding, debugging and documentation support). All code was
 executed, tested and verified locally; every metric reported in this
-repository comes from running the code itself. This disclosure is made in
-compliance with Regulation (EU) 2024/1689 (EU AI Act), Article 50, applicable
-since 2 August 2026, and Italian Law No. 132/2025 on artificial intelligence.
+repository comes from running the code itself.
+
+Disclosure framework:
+- **Regulation (EU) 2024/1689 (EU AI Act), Article 50** (transparency
+  obligations, applicable since 2 August 2026. Voluntarily applied (this is
+  a research/educational open-source project, not an AI system placed on the
+  market).
+- **Italian Law No. 132 of 23 September 2025, Article 13** (information on
+  AI use in clear, simple and exhaustive language.
+- **EU Code of Practice on Transparency of AI-Generated Content** (final
+  version, 10 June 2026).
+
+The training dataset is fully synthetic and self-generated; no third-party
+works, personal data or proprietary data were used. The application does not
+collect, store or transmit personal data (offline by design, consistent with
+GDPR principles).
 
 ## License
 

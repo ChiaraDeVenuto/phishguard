@@ -32,6 +32,9 @@ coordinated before public disclosure where appropriate.
 This project was developed with the assistance of generative AI tools
 (AI-assisted coding, debugging and documentation support). All code was
 executed, tested and verified locally; every metric reported comes from
-running the code itself. This disclosure is made in compliance with
-Regulation (EU) 2024/1689 (EU AI Act), Article 50, applicable since
-2 August 2026, and Italian Law No. 132/2025.
+running the code itself. This disclosure is made in line with Regulation
+(EU) 2024/1689 (EU AI Act), Article 50 (transparency, applicable since
+2 August 2026), Italian Law No. 132/2025, Article 13, and the EU Code of
+Practice on Transparency of AI-Generated Content (10 June 2026). The training
+dataset is fully synthetic and self-generated; the application does not
+collect, store or transmit personal data.
