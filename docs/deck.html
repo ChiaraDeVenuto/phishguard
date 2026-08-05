@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>PhishGuard — Pitch Deck</title>
+<title>PhishGuard Pitch Deck</title>
 <style>
   body { font-family: 'Segoe UI', Arial, sans-serif; background:#fff; margin:0; color:#111; }
   .slide { width: 100%; height: 100vh; page-break-after: always; box-sizing: border-box;
@@ -30,27 +30,27 @@
   <h1>🛡️ PhishGuard</h1>
   <p style="font-size:24px;">AI Email Phishing Detector with <b>Explainable Verdicts</b></p>
   <p class="muted">FutureTech HackFest 2026 · Applied AI × Cybersecurity · Chiara De Venuto</p>
-  <p><span class="tag">offline-first</span><span class="tag">privacy-preserving</span><span class="tag">98.9% accuracy</span></p>
+  <p><span class="tag">offline-first</span><span class="tag">privacy-preserving</span><span class="tag">98.75% CV accuracy</span></p>
 </div>
 
 <div class="slide">
   <h2>1 · The Problem</h2>
   <ul>
-    <li>Phishing is the #1 initial-access vector in cyberattacks — millions of new phishing sites per quarter.</li>
-    <li>The real question is not "is this link blacklisted?" but <b>"is this email trustworthy?"</b> — before the click.</li>
-    <li>Most detectors are <b>black boxes</b>: verdict without reasons → users never learn to defend themselves.</li>
-    <li>Most detectors are <b>cloud-dependent</b>: email content leaves the device.</li>
+    <li>Phishing is the #1 way attacks get started, with millions of new phishing sites appearing every quarter.</li>
+    <li>The question that matters is not "is this link blacklisted?" but <b>"is this email trustworthy?"</b>, and it needs an answer before you click.</li>
+    <li>Most detectors are <b>black boxes</b>: they return a verdict with no reasons, so you never learn how to protect yourself.</li>
+    <li>Most detectors also <b>depend on the cloud</b>, which means your email content is sent to a server somewhere else.</li>
   </ul>
 </div>
 
 <div class="slide">
   <h2>2 · Our Solution</h2>
-  <p style="font-size:20px;"><b>PhishGuard</b> — paste an email, get:</p>
+  <p style="font-size:20px;">You paste an email into PhishGuard and get:</p>
   <ul>
-    <li>🎯 <b>Risk score 0-100</b> + verdict: SAFE / SUSPICIOUS / PHISHING</li>
-    <li>🧾 <b>Evidence</b>: active heuristic signals + top text indicators (the <i>why</i>)</li>
-    <li>🔒 <b>100% offline</b>: no API keys, no cloud, no data exfiltration</li>
-    <li>⚡ Web UI + JSON API</li>
+    <li>🎯 <b>A risk score from 0 to 100</b> and a clear verdict: SAFE, SUSPICIOUS or PHISHING</li>
+    <li>🧾 <b>Evidence you can read</b>: the exact signals and words that raised the score, so you understand the <i>why</i></li>
+    <li>🔒 <b>100% offline</b>: no API keys, no cloud, no data ever leaving your machine</li>
+    <li>⚡ A simple web interface, plus a JSON API for developers</li>
   </ul>
 </div>
 
@@ -62,20 +62,20 @@
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─► 15 heuristic features (scaled) ─┘&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;verdict + evidence ◄┘</p>
   <ul>
-    <li><b>ML layer</b> — captures subtle textual patterns.</li>
-    <li><b>Heuristic layer</b> — expert knowledge: typosquatting TLDs, raw-IP URLs, Reply-To mismatch, urgency keywords, attachments…</li>
-    <li><b>Interpretability by construction</b> — logistic coefficients are readable.</li>
+    <li><b>ML layer</b>: picks up subtle patterns in the text that are hard to describe by hand.</li>
+    <li><b>Heuristic layer</b>: encodes expert knowledge such as typosquatting domains, raw-IP URLs, Reply-To mismatches, urgency keywords and attachment hints.</li>
+    <li><b>Interpretable by design</b>: logistic regression coefficients can be read directly, and the interface shows them to you.</li>
   </ul>
 </div>
 
 <div class="slide">
   <h2>4 · Data & Methodology</h2>
   <ul>
-    <li><b>720 emails</b>, balanced (360 phishing / 360 legit), generated deterministically (seed 42) from documented phishing patterns — <b>fully reproducible, code-committed</b>.</li>
-    <li><b>Hard examples</b> included: legit emails with phishing-like words ("verify your email", "password changed"), low-intensity phishing.</li>
-    <li>Features: TF-IDF (1-2 grams) + <b>15 interpretable heuristics</b>.</li>
-    <li>Model: <b>Logistic Regression</b> (class-balanced) — strong baseline, fast, explainable.</li>
-    <li>Evaluation: stratified holdout + <b>5-fold CV</b> + ablation study.</li>
+    <li><b>720 emails</b>, balanced between 360 phishing and 360 legitimate, generated deterministically (seed 42) from documented phishing patterns. The generator lives in the repository, so the dataset is <b>fully reproducible</b>.</li>
+    <li><b>Hard examples on purpose</b>: legitimate emails that mention words like "verify your email" or "password changed", plus low-intensity phishing that stays calm.</li>
+    <li>Features: TF-IDF (1-2 grams) plus <b>15 interpretable heuristics</b>.</li>
+    <li>Model: <b>Logistic Regression</b> with balanced classes. A strong baseline that is fast and explainable.</li>
+    <li>Evaluation: stratified holdout, <b>5-fold cross-validation</b> and an ablation study.</li>
   </ul>
 </div>
 
@@ -88,15 +88,15 @@
     <tr><td>Recall</td><td><b>97.22%</b></td><td><b>97.50%</b></td></tr>
     <tr><td>F1</td><td><b>98.59%</b></td><td><b>98.73%</b></td></tr>
   </table>
-  <p class="muted">Holdout confusion matrix: [[72, 0], [2, 70]] — 0 false positives, 2 false negatives.</p>
+  <p class="muted">Holdout confusion matrix: [[72, 0], [2, 70]]. Zero false positives, 2 false negatives.</p>
 </div>
 
 <div class="slide">
   <h2>6 · Demo Flow</h2>
-  <p style="font-size:20px;">1️⃣ Paste any email (suspicious or normal)<br>
-  2️⃣ Get the <b>score bar</b> + verdict badge<br>
-  3️⃣ Read the <b>evidence</b>: active features & top indicators<br>
-  4️⃣ Act on the advice — before clicking anything</p>
+  <p style="font-size:20px;">1️⃣ Paste any email, suspicious or normal<br>
+  2️⃣ Get the <b>score bar</b> and verdict badge<br>
+  3️⃣ Read the <b>evidence</b>: active features and top indicators<br>
+  4️⃣ Act on the advice, before clicking anything</p>
   <p class="center"><span class="big red">100</span> <span class="big">PHISHING</span>
   &nbsp;&nbsp;→&nbsp;&nbsp; <span class="big green">5</span> <span class="big">SAFE</span></p>
   <p class="muted center">Real output from the running app (see demo video).</p>
@@ -105,25 +105,25 @@
 <div class="slide">
   <h2>7 · Innovation</h2>
   <ul>
-    <li>🧠 <b>Explainability as a feature</b>: users learn <i>what to look for</i> — security awareness, the first line of defense.</li>
-    <li>🔒 <b>Offline-first, privacy-preserving</b>: email content never leaves the device.</li>
-    <li>🔬 <b>Reproducible corpus</b>: auditable, code-generated dataset.</li>
-    <li>🛡️ <b>Dual-layer defense</b>: ML + expert heuristics, both exposed.</li>
+    <li>🧠 <b>Explainability is the feature</b>: using PhishGuard teaches you what to look for, and security awareness is the first line of defense.</li>
+    <li>🔒 <b>Offline-first and private</b>: email content never leaves the device, which is rare among modern detectors.</li>
+    <li>🔬 <b>Reproducible data</b>: the whole corpus is generated by auditable, committed code.</li>
+    <li>🛡️ <b>Dual-layer defense</b>: machine learning plus expert heuristics, and both layers are visible to the user.</li>
   </ul>
 </div>
 
 <div class="slide">
   <h2>8 · Limits & Roadmap</h2>
   <ul>
-    <li>Synthetic corpus → validate on real-world data (Enron + live phishing feeds).</li>
-    <li>Single-token indicators → natural-language explanations.</li>
-    <li>Logistic baseline → optional fine-tuned transformer (size vs. interpretability trade-off).</li>
+    <li>The dataset is synthetic, so validation on real-world mail (Enron corpora and live phishing feeds) is the immediate next step.</li>
+    <li>Text indicators are single tokens today; natural-language explanations are the follow-up.</li>
+    <li>Logistic regression is a strong baseline, and a fine-tuned transformer is a possible upgrade if you accept the trade-off in size and interpretability.</li>
   </ul>
   <h3>Roadmap</h3>
   <ul>
-    <li>Browser extension & email-client plugin</li>
+    <li>Browser extension and email-client plugin</li>
     <li>Threat-intel blacklist as a third layer</li>
-    <li>Explainability for the SUSPICIOUS band</li>
+    <li>Better explanations for the SUSPICIOUS band</li>
   </ul>
 </div>
 
@@ -136,10 +136,10 @@
 
 <div class="slide">
   <h2>10 · AI Use Disclosure</h2>
-  <p style="font-size:20px;">This project was developed <b>with the assistance of generative AI tools</b> (AI-assisted coding, debugging and documentation). All code was executed, tested and verified locally; every metric comes from running the code.</p>
+  <p style="font-size:20px;">This project was built <b>with the assistance of generative AI tools</b>, used for coding support, debugging and writing documentation. Every line of code was executed, tested and verified locally, and every metric you see in this deck comes from running the code itself.</p>
   <p style="font-size:18px;">Declared in compliance with:</p>
   <ul>
-    <li><b>Regulation (EU) 2024/1689 (EU AI Act), Article 50</b> — transparency obligations, applicable since 2 August 2026</li>
+    <li><b>Regulation (EU) 2024/1689 (EU AI Act), Article 50</b> (transparency obligations, applicable since 2 August 2026)</li>
     <li><b>Italian Law No. 132/2025</b> on artificial intelligence (Article 13)</li>
   </ul>
   <p class="muted">Full transparency towards evaluators, users and third parties.</p>
@@ -147,7 +147,7 @@
 
 <div class="slide">
   <h2>Thank you</h2>
-  <p style="font-size:22px;">🛡️ <b>PhishGuard</b> — Know why. Click safely.</p>
+  <p style="font-size:22px;">🛡️ <b>PhishGuard</b>. Know why. Click safely.</p>
   <p class="muted">FutureTech HackFest 2026 · Chiara De Venuto</p>
 </div>
 

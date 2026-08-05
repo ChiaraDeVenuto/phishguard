@@ -1,5 +1,5 @@
 """
-PhishGuard — honest evaluation (5-fold CV + ablation study).
+PhishGuard honest evaluation (5-fold CV + ablation study).
 
 Shows whether the combined pipeline (TF-IDF + heuristics) truly beats each
 signal alone, using cross-validated metrics instead of a single split.

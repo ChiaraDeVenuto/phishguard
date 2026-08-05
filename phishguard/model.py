@@ -1,5 +1,5 @@
 """
-PhishGuard — model training pipeline.
+PhishGuard model training pipeline.
 
 TF-IDF (text) + handcrafted heuristic features (scaled) -> Logistic Regression.
 Stratified 80/20 split, class-balanced. Saves a single joblib pipeline.

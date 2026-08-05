@@ -1,5 +1,5 @@
 """
-PhishGuard — handcrafted heuristic features.
+PhishGuard handcrafted heuristic features.
 
 Extracts interpretable signals from an email (as raw text: Subject + body,
 optionally with From/Reply-To/Attachment pseudo-headers) that are known

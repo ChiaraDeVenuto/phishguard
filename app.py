@@ -1,5 +1,5 @@
 """
-PhishGuard — Flask web application.
+PhishGuard Flask web application.
 
 Analyzes an email (pasted text) and returns a 0-100 phishing risk score,
 a verdict label and interpretable evidence (active heuristic features +

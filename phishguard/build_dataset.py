@@ -1,5 +1,5 @@
 """
-PhishGuard — dataset builder.
+PhishGuard dataset builder.
 
 Generates a curated, labeled synthetic dataset of phishing and legitimate
 emails based on documented phishing patterns (APWG Phishing Activity Trends,

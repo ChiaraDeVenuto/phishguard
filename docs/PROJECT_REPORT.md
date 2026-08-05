@@ -1,4 +1,4 @@
-# PhishGuard — Project Report
+# PhishGuard Project Report
 
 **FutureTech HackFest 2026** · Theme: *Innovating Tomorrow with Emerging Technologies*
 Focus areas: **Applied AI** · **Cybersecurity**
@@ -8,34 +8,34 @@ Author: Chiara De Venuto (individual participation)
 
 ## 1. Executive Summary
 
-PhishGuard is an offline-first AI email phishing detector. It combines a
-**machine learning classifier** (TF-IDF text representation + logistic
-regression) with **15 interpretable heuristic features** to produce a
-0-100 phishing risk score, a verdict (SAFE / SUSPICIOUS / PHISHING) and —
-crucially — **evidence**: the exact features and text signals that drove the
+PhishGuard is an AI email phishing detector that works fully offline. It combines a
+**machine learning classifier** (TF-IDF text representation with logistic
+regression) and **15 interpretable heuristic features** to produce a
+0-100 phishing risk score, a verdict (SAFE / SUSPICIOUS / PHISHING) and,
+crucially, **evidence**: the exact features and text signals that drove the
 prediction. Unlike black-box commercial filters, PhishGuard explains *why* an
-email is dangerous, which is what makes it usable for education, awareness
-campaigns and small organizations without cloud dependencies.
+email is dangerous, which makes it useful for education, awareness
+campaigns and small organizations that want to avoid cloud dependencies.
 
 **Key results:** 98.61% holdout accuracy, 98.75% 5-fold cross-validation
-accuracy, 0 false positives, 2 false negatives on a balanced 720-email
+accuracy, 0 false positives and 2 false negatives on a balanced 720-email
 curated dataset.
 
 ## 2. Problem
 
-Phishing remains one of the most effective initial-access vectors in
-cybersecurity. APWG consistently reports record phishing volumes: millions
-of unique phishing sites per quarter, with social engineering increasingly
-targeting individuals rather than infrastructure. For an individual user or
-a small organization, the question is rarely "is this link malicious?"
-(blacklists answer that) but **"is this email trustworthy?"** — which is
-exactly where detection must operate *before* the click.
+Phishing is still one of the most effective ways for attackers to get in.
+APWG consistently reports record phishing volumes, with millions of unique
+phishing sites every quarter and social engineering aimed at people more than
+at infrastructure. For an individual user or a small organization the
+question is rarely "is this link malicious?" (blacklists already answer
+that). The real question is **"is this email trustworthy?"**, and the answer
+is needed *before* the click.
 
 Two practical gaps motivated this project:
-1. **Explainability** — most detectors return a verdict without reasons;
-   users do not learn and cannot defend themselves elsewhere.
-2. **Dependency** — commercial solutions are cloud-based; an email sent to a
-   device with no connectivity, or in a privacy-sensitive context, cannot be
+1. **Explainability**. Most detectors return a verdict without any reason,
+   so users never learn and cannot defend themselves elsewhere.
+2. **Dependency**. Commercial solutions are cloud-based. An email sent to a
+   device with no connectivity, or one that is privacy-sensitive, cannot be
    analyzed. PhishGuard runs 100% locally.
 
 ## 3. Proposed Solution
@@ -47,19 +47,19 @@ email text ──► TF-IDF (1-2 grams, 1677 features) ─┐
                                                verdict + evidence ◄──┘
 ```
 
-- **Web UI** (Flask): paste an email, get score bar, verdict badge, advice,
-  active heuristic features and top contributing text indicators.
-- **JSON API** (`POST /api/analyze`): programmatic use, integration-ready.
+- **Web UI** (Flask): paste an email, get a score bar, a verdict badge, advice,
+  the active heuristic features and the top contributing text indicators.
+- **JSON API** (`POST /api/analyze`): programmatic use, ready for integration.
 
 ### Why this approach
 
-- **No external API keys, no cloud, no data exfiltration** — the model is a
-  ~300 KB local artifact. A privacy-first design.
-- **Hybrid signals** — TF-IDF captures subtle textual patterns; heuristics
+- **No external API keys, no cloud, no data exfiltration**. The model is a
+  small local artifact (~300 KB). This is a privacy-first design by choice.
+- **Hybrid signals**. TF-IDF captures subtle textual patterns, while heuristics
   encode expert knowledge (typosquatting TLDs, raw-IP URLs, Reply-To
-  mismatches, urgency/financial trigger words) that ML on small data may miss.
-- **Interpretability by construction** — logistic regression coefficients are
-  directly readable; the UI surfaces them.
+  mismatches, urgency and financial trigger words) that ML on small data may miss.
+- **Interpretable by construction**. Logistic regression coefficients are
+  directly readable, and the UI surfaces them.
 
 ## 4. Methodology
 
@@ -67,16 +67,16 @@ email text ──► TF-IDF (1-2 grams, 1677 features) ─┐
 
 Balanced, labeled synthetic corpus of **720 emails (360 phishing / 360 legit)**,
 generated deterministically (seed 42) from documented phishing patterns:
-typosquatted domains, raw-IP URLs, urgent/financial trigger phrases, generic
-greetings, Reply-To mismatches, malicious attachments, ALL-CAPS manipulation —
-*and* **hard examples** that make the task non-trivial:
+typosquatted domains, raw-IP URLs, urgent and financial trigger phrases, generic
+greetings, Reply-To mismatches, malicious attachments and ALL-CAPS manipulation.
+It also includes **hard examples** that make the task non-trivial:
 
-- legitimate emails containing phishing-like words ("verify your email",
+- legitimate emails that contain phishing-like words ("verify your email",
   "password changed", "security settings updated") with legitimate domains;
-- low-intensity phishing (calm tone, no exclamation marks).
+- low-intensity phishing with a calm tone and no exclamation marks.
 
 No real user data was used. The generator is part of the repository
-(`phishguard/build_dataset.py`), making the dataset fully reproducible.
+(`phishguard/build_dataset.py`), so the dataset is fully reproducible.
 
 ### 4.2 Features
 
@@ -91,44 +91,44 @@ has_attachment_word, reply_to_mismatch, has_phone.
 ### 4.3 Model
 
 Logistic Regression (C=1.0, class_weight=balanced, 3000 iterations) on the
-stacked sparse matrix. Logistic regression was chosen deliberately: strong
-baseline for text classification, fast to train/evaluate on modest hardware,
-and **fully interpretable**.
+stacked sparse matrix. Logistic regression was chosen deliberately: it is a
+strong baseline for text classification, fast to train and evaluate on modest
+hardware, and **fully interpretable**.
 
 ### 4.4 Evaluation
 
-- Holdout: stratified 80/20, seed 42 → **98.61% acc, 100% precision,
-  97.22% recall, F1 98.59%**. Confusion matrix: [[72, 0], [2, 70]] — 0 false
-  positives, 2 false negatives.
-- **5-fold CV** (mean): 98.75% acc, F1 98.73%.
-- **Ablation**: text-only and heuristics-only both reach ~99% CV accuracy on
-  this corpus; the combined pipeline is the production choice and the
-  heuristics supply the evidence layer for the UI.
+- Holdout: stratified 80/20, seed 42. **98.61% accuracy, 100% precision,
+  97.22% recall, F1 98.59%**. Confusion matrix [[72, 0], [2, 70]], meaning 0 false
+  positives and 2 false negatives.
+- **5-fold CV** (mean): 98.75% accuracy, F1 98.73%.
+- **Ablation**: text-only and heuristics-only both reach about 99% CV accuracy
+  on this corpus; the combined pipeline is the production choice, and the
+  heuristics supply the evidence layer that the UI shows.
 
 ## 5. Innovation & Uniqueness
 
-1. **Explainability as a feature, not an add-on**: every verdict is delivered
-   with the list of active heuristic signals and the top text contributors.
-   The user learns *what to look for* — directly supporting security
-   awareness, a recognized first line of defense.
-2. **Offline-first, privacy-preserving detection**: no email content ever
-   leaves the device. Unusual among modern detectors.
-3. **Reproducible synthetic corpus**: the entire dataset is generated by
-   committed code — a transparent, auditable training pipeline.
-4. **Dual-layer defense**: ML + expert heuristics, with both layers exposed.
+1. **Explainability is a feature, not an add-on**. Every verdict comes with the
+   list of active heuristic signals and the top text contributors, so the
+   user learns *what to look for*. That directly supports security awareness,
+   a recognized first line of defense.
+2. **Offline-first, privacy-preserving detection**. No email content ever
+   leaves the device. That is unusual among modern detectors.
+3. **Reproducible synthetic corpus**. The entire dataset is generated by
+   committed code, giving a transparent and auditable training pipeline.
+4. **Dual-layer defense**. ML plus expert heuristics, with both layers exposed.
 
 ## 6. Limitations & Future Work
 
-- The corpus is synthetic; generalization to real-world mail (Enron corpora,
-  live phishing feeds) must be validated. Public labeled datasets and
+- The corpus is synthetic, so generalization to real-world mail (Enron corpora,
+  live phishing feeds) still has to be validated. Public labeled datasets and
   manual triage are the immediate next step.
-- Single-token text indicators are crude explanations; a follow-up will
+- Single-token text indicators are rough explanations; a follow-up will
   generate natural-language rationales (offline LLM or template-based).
-- Logistic regression is a strong baseline, not a frontier model; a fine-tuned
+- Logistic regression is a strong baseline, not a frontier model. A fine-tuned
   transformer could improve recall on adversarial examples, at the cost of
   size and interpretability.
-- Roadmap: browser extension, MCP/server integration, threat-intel feed
-  (blacklist) as a third layer, explainability for the SUSPICIOUS band.
+- Roadmap: browser extension, MCP/server integration, a threat-intel feed
+  (blacklist) as a third layer, and better explainability for the SUSPICIOUS band.
 
 ## 7. Tech Stack
 
@@ -137,7 +137,7 @@ and **fully interpretable**.
 | ML | scikit-learn 1.9 (TF-IDF, LogisticRegression), joblib, scipy |
 | Web | Python 3.12, Flask 3.1 |
 | Tests | stdlib unittest (6 end-to-end tests) |
-| Assets | pip requirements only — no external services |
+| Assets | pip requirements only, no external services |
 
 ## 8. How to Run
 
@@ -152,10 +152,10 @@ python3 -m venv .venv
 
 ## 9. AI Tools Disclosure (transparency compliance)
 
-This project was developed with the assistance of generative AI tools:
+This project was developed with the assistance of generative AI tools.
 AI-assisted coding was used for scaffolding, code generation support,
 debugging and documentation drafting. The code was reviewed, executed and
-tested locally; all metrics reported in this document were produced by
+tested locally, and all metrics reported in this document were produced by
 running the code, not by the tools. No proprietary or personal data was
 shared with external services.
 

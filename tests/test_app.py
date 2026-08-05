@@ -1,4 +1,4 @@
-"""PhishGuard — end-to-end tests (stdlib unittest, no extra deps)."""
+"""PhishGuard end-to-end tests (stdlib unittest, no extra deps)."""
 import sys
 import unittest
 from pathlib import Path
