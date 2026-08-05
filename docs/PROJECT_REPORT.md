@@ -152,12 +152,12 @@ python3 -m venv .venv
 
 ## 9. AI Tools Disclosure (transparency compliance)
 
-This project was developed with the assistance of AI tools: a local AI coding
-assistant (APEX) was used for scaffolding, code generation support, debugging
-and documentation drafting. The code was reviewed, executed and tested
-locally; all metrics reported in this document were produced by running the
-code, not by the assistant. No proprietary or personal data was shared with
-external services.
+This project was developed with the assistance of generative AI tools:
+AI-assisted coding was used for scaffolding, code generation support,
+debugging and documentation drafting. The code was reviewed, executed and
+tested locally; all metrics reported in this document were produced by
+running the code, not by the tools. No proprietary or personal data was
+shared with external services.
 
 This disclosure is made in compliance with:
 - **Regulation (EU) 2024/1689 (EU AI Act), Article 50** (transparency
