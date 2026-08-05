@@ -51,13 +51,13 @@ def analyze(text: str) -> dict:
     score = int(round(prob * 100))
 
     if score < 40:
-        label, color, advice = "SAFE", "green", "Nessun segnale di phishing rilevato."
+        label, color, advice = "SAFE", "green", "No phishing signals detected."
     elif score < 65:
         label, color = "SUSPICIOUS", "orange"
-        advice = "Segnali misti: verifica il mittente prima di agire."
+        advice = "Mixed signals: check the sender before acting."
     else:
         label, color = "PHISHING", "red"
-        advice = "Alta probabilità di phishing. Non cliccare link, non rispondere."
+        advice = "High probability of phishing. Do not click links, do not reply."
 
     features = extract_heuristic_features(text)
     active = [
@@ -96,7 +96,7 @@ def index():
 def analyze_view():
     text = request.form.get("email", "").strip()
     if not text:
-        return render_template("index.html", error="Incolla un'email da analizzare.")
+        return render_template("index.html", error="Paste an email to analyze.")
     result = analyze(text)
     return render_template("index.html", result=result, email=text)
 

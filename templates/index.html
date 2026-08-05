@@ -41,11 +41,11 @@
 <main>
   <div class="card">
     <form method="POST" action="/analyze">
-      <textarea name="email" placeholder="Incolla qui il testo completo di un'email (Subject + body)…">{{ email if email else '' }}</textarea>
-      <button type="submit">Analizza email</button>
+      <textarea name="email" placeholder="Paste the full email text here (Subject + body)…">{{ email if email else '' }}</textarea>
+      <button type="submit">Analyze email</button>
     </form>
     {% if error %}<div class="error">{{ error }}</div>{% endif %}
-    <div class="hint">Demo: incolla un'email sospetta o un'email normale — PhishGuard restituisce punteggio di rischio 0-100, verdetto ed evidenze.</div>
+    <div class="hint">Demo: paste a suspicious or a normal email. PhishGuard returns a 0-100 risk score, a verdict and the evidence behind it.</div>
   </div>
 
   {% if result %}
@@ -57,14 +57,14 @@
     <div class="bar"><div style="width:{{ result.score }}%; background:{{ result.color }}"></div></div>
     <div class="advice">{{ result.advice }}</div>
 
-    <h3>Indicatori testuali principali</h3>
+    <h3>Top text indicators</h3>
     <ul>
       {% for tok, c in result.top_indicators %}
-      <li><code>{{ tok }}</code> <span style="color:var(--muted)">(contributo {{ '%.3f'|format(c) }})</span></li>
+      <li><code>{{ tok }}</code> <span style="color:var(--muted)">(contribution {{ '%.3f'|format(c) }})</span></li>
       {% endfor %}
     </ul>
 
-    <h3>Feature euristiche attive</h3>
+    <h3>Active heuristic features</h3>
     <ul>
       {% for name, val in result.active_features %}
       <li><code>{{ name }}</code> = {{ val }}</li>
@@ -73,7 +73,7 @@
   </div>
   {% endif %}
 </main>
-<footer>PhishGuard · Applicato AI + Cybersecurity · 2026<br>
-<span style="font-size:11px">Sviluppato con ausilio di strumenti di IA generativa. Trasparenza dichiarata ai sensi del Reg. (UE) 2024/1689, art. 50, e della L. 132/2025. Tutto il codice è stato eseguito e verificato localmente.</span></footer>
+<footer>PhishGuard · Applied AI + Cybersecurity · 2026<br>
+<span style="font-size:11px">Developed with the assistance of generative AI tools. Transparency disclosed in compliance with Reg. (EU) 2024/1689, Art. 50, and Italian Law No. 132/2025. All code was executed and verified locally.</span></footer>
 </body>
 </html>
